@@ -83,16 +83,17 @@ public class ProcessLogs {
         }
     }
 
-    private void processLogEntry(String logEntry) {
+    void processLogEntry(String logEntry) {
         String[] parts = logEntry.split(",");
         if (parts.length < 4) {
             logger.warning("[SKIPPING] Invalid log entry format: " + logEntry);
             return;
         }
 
-        String timestamp;
+        // Parse timestamp
+        LocalTime time;
         try {
-            timestamp = LocalTime.parse(parts[0].trim(), DateTimeFormatter.ofPattern("HH:mm:ss")).toString();
+            time = LocalTime.parse(parts[0].trim(), DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         } catch (Exception e) {
             logger.warning("[SKIPPING] Invalid log entry format: " + logEntry);
@@ -106,8 +107,6 @@ public class ProcessLogs {
         // Create a unique job ID combining the description and PID
         String jobId = description.trim() + "-" + pid.trim();
 
-        // Parse timestamp
-        LocalTime time = LocalTime.parse(timestamp, DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         if ("START".equals(status.trim())) {
             // Record job start
@@ -140,8 +139,8 @@ public class ProcessLogs {
     private Duration calculateDuration(LocalTime start, LocalTime end) {
         // Handle case where job runs past midnight
         if (end.isBefore(start)) {
-            // Add 24 hours to end time
-            end = end.plusHours(24);
+            // Job ran past midnight: calculate as if it ran into the next day
+            return Duration.between(start, end).plusHours(24);
         }
         return Duration.between(start, end);
     }
@@ -151,6 +150,5 @@ public class ProcessLogs {
         long minutes = totalSeconds / 60;
         long seconds = totalSeconds % 60;
         return minutes + " minutes, " + seconds + " seconds.";
-        // return String.format("%d minutes, %d seconds", minutes, seconds);
     }
 }

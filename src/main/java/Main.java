@@ -1,10 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class Main {
 
