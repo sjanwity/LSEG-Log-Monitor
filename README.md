@@ -1,6 +1,6 @@
 ## Overview
-This is a very simple log analyser that takes a log file hard coded on the main class and outputs to console all the events. It is fully customizable from the main class, using a Builder pattern to build the log file processor instance and freely able to change the thresholds for warnings and errors. 
-The application is a maven project, currently only to bring JUnit for unit testing but can be expanded to include other dependencies further down the line.
+This is a very simple log analyser that takes a log file hard coded on the main class and outputs to console all the events. It is fully customizable from the main class, using a Builder pattern to build the log file processor instance and freely able to change the thresholds for warnings and errors, meaning future improvements using any approach will require 
+minimal refactoring to achieve. The application is a maven project, currently only to bring JUnit for unit testing but can be expanded to include other dependencies further down the line.
 
 ## Improvements
 As this is a very simple application, the improvements are many.
